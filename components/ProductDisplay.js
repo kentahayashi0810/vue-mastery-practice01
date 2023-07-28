@@ -19,6 +19,8 @@ app.component("product-display", {
             <p v-else>Out of Stock</p>
             <p>Shipping: {{shipping}}</p>
 
+
+
             <detail-list :details="details"></detail-list>
 
             <div
@@ -33,6 +35,10 @@ app.component("product-display", {
             <button class="button" :class="{disabledButton : !inStock}"
             :disabled="!inStock" @click="removeItem">Remove Item</button>
           </div>
+
+          <review-list v-if="reviews.length > 0" :reviews="reviews"></review-list>
+
+          <review-form @review-submitted="addReview"></review-form>
         </div>
       </div>`,
   data() {
@@ -55,6 +61,7 @@ app.component("product-display", {
           quantity: 1,
         },
       ],
+      reviews: [],
     };
   },
   methods: {
@@ -70,6 +77,9 @@ app.component("product-display", {
     },
     removeItem() {
       this.$emit("remove-item", this.variants[this.selectedVariant].id);
+    },
+    addReview(review) {
+      this.reviews.push(review);
     },
   },
   computed: {
